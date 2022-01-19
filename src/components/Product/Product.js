@@ -15,6 +15,22 @@ const Product = ({ title, basePrice, colors, sizes, name }) => {
     return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()];
   }
 
+  const getPrice = () => {
+    const result = sizes.find(size => size === currentSize);
+    return basePrice + result.additionalPrice;
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    return `  Summary
+    ===========
+    Name: ${title}
+    Price: ${basePrice}
+    Size: ${currentSize.name}
+    Color: ${currentColor}
+    `;
+  }
+
   return (
     <article className={styles.product}>
       <div className={styles.imageContainer}>
@@ -26,7 +42,7 @@ const Product = ({ title, basePrice, colors, sizes, name }) => {
       <div>
         <header>
           <h2 className={styles.name}>{title}</h2>
-          <span className={styles.price}>{basePrice}$</span>
+          <span className={styles.price}>Price: {/*getPrice()*/ basePrice}$</span>
         </header>
         <form>
           <div className={styles.sizes}>
@@ -41,7 +57,7 @@ const Product = ({ title, basePrice, colors, sizes, name }) => {
               {colors.map(color => <li key={color}><button type="button" className={clsx(prepareColorClassName(color), color === currentColor && styles.active)} onClick={() => setCurrentColor(color)} />{color}</li>)}
             </ul>
           </div>
-          <Button className={styles.button}>
+          <Button className={styles.button} onClick={handleSubmit}>
             <span className="fa fa-shopping-cart" />
           </Button>
         </form>
